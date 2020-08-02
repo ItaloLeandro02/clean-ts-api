@@ -1,4 +1,4 @@
-import { Controller, HttpRequest, HttpResponse, Validation, AddSurvey } from './add-survey-protocols-controller'
+import { Controller, HttpRequest, HttpResponse, Validation, AddSurvey } from './add-survey-controller-protocols'
 import { badRequest, serverError, noContent } from '../../../helpers/http/http-helper'
 
 export class AddSurveyController implements Controller {
