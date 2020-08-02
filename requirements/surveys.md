@@ -5,7 +5,7 @@
 1. :no_entry: Recebe uma requisição do tipo **GET** na rota **/api/surveys**
 2. :no_entry: Valida se a requisição foi feita por um usuário
 3. :white_check_mark: Retorna 200 com os dados das enquetes
-4. :no_entry: Retorna 204 se não tiver nenhuma enquete
+4. :white_check_mark: Retorna 204 se não tiver nenhuma enquete
 
 > ## Exceções
  
