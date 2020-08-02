@@ -1,6 +1,6 @@
+import { Collection } from 'mongodb'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyMongoRepository } from './survey-mongo-repository'
-import { Collection } from 'mongodb'
 
 let surveyColletion: Collection
 
@@ -32,7 +32,8 @@ describe('Account Mongo Repository', () => {
         answer: 'any_answer'
       }, {
         answer: 'other_answer'
-      }]
+      }],
+      date: new Date()
     })
 
     const survey = await surveyColletion.findOne({ question: 'any_question' })
