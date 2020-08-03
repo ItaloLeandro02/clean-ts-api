@@ -5,7 +5,7 @@ import {
   UpdateAccessTokenRepository,
   Encrypter,
   HashComparer
-} from './db-authentication-protocols'
+} from '@/data/usecases/authentication/db-authentication-protocols'
 
 export class DbAuthentication implements Authentication {
   constructor (
