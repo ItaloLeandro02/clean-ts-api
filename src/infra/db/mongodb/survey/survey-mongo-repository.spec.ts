@@ -4,7 +4,7 @@ import { SurveyMongoRepository } from '@/infra/db/mongodb/survey/survey-mongo-re
 
 let surveyColletion: Collection
 
-describe('Account Mongo Repository', () => {
+describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
