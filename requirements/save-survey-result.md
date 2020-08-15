@@ -18,4 +18,4 @@
 4. :no_entry: Retorna erro 403 se a resposta enviada pelo client for uma resposta inválida
 5. :no_entry: Retorna erro 500 se der erro ao tentar criar o resultado da enquete
 6. :no_entry: Retorna erro 500 se der erro ao tentar atualizar o resultado da enquete
-7. :no_entry: Retorna erro 500 se der erro ao tentar carregar a enquete
+7. :white_check_mark: Retorna erro 500 se der erro ao tentar carregar a enquete
