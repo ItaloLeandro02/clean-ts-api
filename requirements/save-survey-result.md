@@ -8,7 +8,7 @@
 4. :white_check_mark: Valida se o campo **answer** é uma resposta válida
 5. :white_check_mark: **Cria** um resultado de enquete com os dados fornecidos caso não tenha um registro
 6. :white_check_mark: **Atualiza** um resultado de enquete com os dados fornecidos caso já tenha um registro
-7. :no_entry: Retorna **200** com os dados do resultado da enquete
+7. :white_check_mark: Retorna **200** com os dados do resultado da enquete
 
 > ## Exceções
 
