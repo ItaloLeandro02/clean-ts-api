@@ -1,7 +1,7 @@
 import { DbAuthentication } from './db-authentication'
 import {
   AccountModel,
-  AuthenticationModel,
+  AuthenticationParams,
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository,
   Encrypter,
@@ -55,7 +55,7 @@ const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
   return new UpdateAccessTokenRepositoryStub()
 }
 
-const makeFakeAuthentication = (): AuthenticationModel => ({
+const makeFakeAuthentication = (): AuthenticationParams => ({
   email: 'any_email@email.com',
   password: 'any_password'
 })
