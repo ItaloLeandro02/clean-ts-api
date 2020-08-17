@@ -3,6 +3,7 @@ import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
+import { mockAddAccountParams, mockAddSurveyParams } from '@/domain/test'
 
 let surveyColletion: Collection
 let surveyResultColletion: Collection
@@ -12,28 +13,14 @@ const makeSut = (): SurveyResultMongoRepository => {
   return new SurveyResultMongoRepository()
 }
 
-const makeSurvey = async (): Promise<SurveyModel> => {
-  const res = await surveyColletion.insertOne({
-    question: 'any_question',
-    answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
-    }, {
-      image: 'other_image',
-      answer: 'other_answer'
-    }],
-    date: new Date()
-  })
+const mockSurvey = async (): Promise<SurveyModel> => {
+  const res = await surveyColletion.insertOne(mockAddSurveyParams())
 
   return res.ops[0]
 }
 
-const makeAccount = async (): Promise<AccountModel> => {
-  const res = await accountColletion.insertOne({
-    name: 'any_name',
-    email: 'any_email@email.com',
-    password: 'any_password'
-  })
+const mockAccount = async (): Promise<AccountModel> => {
+  const res = await accountColletion.insertOne(mockAddAccountParams())
 
   return res.ops[0]
 }
@@ -58,8 +45,8 @@ describe('Survey Result Mongo Repository', () => {
 
   describe('save()', () => {
     test('Should add a survey result if its new ', async () => {
-      const survey = await makeSurvey()
-      const account = await makeAccount()
+      const survey = await mockSurvey()
+      const account = await mockAccount()
       const sut = makeSut()
 
       const surveyResult = await sut.save({
@@ -75,8 +62,8 @@ describe('Survey Result Mongo Repository', () => {
     })
 
     test('Should update survey result if its not new ', async () => {
-      const survey = await makeSurvey()
-      const account = await makeAccount()
+      const survey = await mockSurvey()
+      const account = await mockAccount()
       const res = await surveyResultColletion.insertOne({
         surveyId: survey.id,
         accountId: account.id,
