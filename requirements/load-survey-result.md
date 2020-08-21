@@ -1,4 +1,4 @@
-# Criar Enquete
+# Resultado da enquete
 
 > ## Caso de sucesso
 
