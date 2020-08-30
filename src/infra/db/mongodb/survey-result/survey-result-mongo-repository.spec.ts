@@ -1,4 +1,4 @@
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyModel } from '@/domain/models/survey'
@@ -16,13 +16,13 @@ const makeSut = (): SurveyResultMongoRepository => {
 const mockSurvey = async (): Promise<SurveyModel> => {
   const res = await surveyColletion.insertOne(mockAddSurveyParams())
 
-  return res.ops[0]
+  return MongoHelper.map(res.ops[0])
 }
 
 const mockAccount = async (): Promise<AccountModel> => {
   const res = await accountColletion.insertOne(mockAddAccountParams())
 
-  return res.ops[0]
+  return MongoHelper.map(res.ops[0])
 }
 
 describe('Survey Result Mongo Repository', () => {
@@ -57,16 +57,18 @@ describe('Survey Result Mongo Repository', () => {
       })
 
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toBeTruthy()
-      expect(surveyResult.answer).toBe(survey.answers[0].answer)
+      expect(surveyResult.surveyId).toEqual(survey.id)
+      expect(surveyResult.answers[0].answer).toBe(survey.answers[0].answer)
+      expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].percent).toBe(100)
     })
 
     test('Should update survey result if its not new ', async () => {
       const survey = await mockSurvey()
       const account = await mockAccount()
-      const res = await surveyResultColletion.insertOne({
-        surveyId: survey.id,
-        accountId: account.id,
+      await surveyResultColletion.insertOne({
+        surveyId: new ObjectId(survey.id),
+        accountId: new ObjectId(account.id),
         answer: survey.answers[0].answer,
         date: new Date()
       })
@@ -80,8 +82,9 @@ describe('Survey Result Mongo Repository', () => {
       })
 
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toEqual(res.ops[0]._id)
-      expect(surveyResult.answer).toBe(survey.answers[1].answer)
+      expect(surveyResult.answers[0].answer).toBe(survey.answers[1].answer)
+      expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].percent).toBe(100)
     })
   })
 })
