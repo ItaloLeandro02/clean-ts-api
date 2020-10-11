@@ -5,7 +5,6 @@
 1. :no_entry: Recebe uma requisição do tipo **GET** na rota **/api/surveys/{survey_id}/results**
 2. :no_entry: Valida se a requisição foi feita por um **usuário**
 3. :no_entry: Valida dados obrigatórios **question** e **answers**
-4. :no_entry: Retorna **204** se não tiver nenhum resultado de enquete
 5. :no_entry: Retorna **200** com os dados do resultado da enquete
 
 > ## Exceções
