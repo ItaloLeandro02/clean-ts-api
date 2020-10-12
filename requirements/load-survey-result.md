@@ -4,7 +4,7 @@
 
 1. :white_check_mark: Recebe uma requisição do tipo **GET** na rota **/api/surveys/{survey_id}/results**
 2. :white_check_mark: Valida se a requisição foi feita por um **usuário**
-5. :no_entry: Retorna **200** com os dados do resultado da enquete
+3. :white_check_mark: Retorna **200** com os dados do resultado da enquete
 
 > ## Exceções
 
