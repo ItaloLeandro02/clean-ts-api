@@ -137,9 +137,7 @@ describe('Survey Result Mongo Repository', () => {
 
     test('Should return null on if there is no survey result', async () => {
       const survey = await mockSurvey()
-
       const sut = makeSut()
-
       const surveyResult = await sut.loadBySurveyId(survey.id)
 
       expect(surveyResult).toBeNull()

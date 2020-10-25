@@ -3,6 +3,7 @@ import { Collection } from 'mongodb'
 import { hash } from 'bcrypt'
 import app from '@/main/config/app'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
+import { mockAddAccountParams } from '@/domain/test'
 
 let accountColletion: Collection
 
@@ -22,13 +23,12 @@ describe('Login Routes', () => {
 
   describe('POST / signup', () => {
     test('Should return 200 on signup', async () => {
+      const accountParams = mockAddAccountParams()
       await request(app)
         .post('/api/signup')
         .send({
-          name: 'valid_name',
-          email: 'valid_email@email.com',
-          password: '123',
-          passwordConfirmation: '123'
+          ...accountParams,
+          passwordConfirmation: accountParams.password
         })
         .expect(200)
     })
@@ -36,28 +36,29 @@ describe('Login Routes', () => {
 
   describe('POST / login', () => {
     test('Should return 200 on login', async () => {
-      const password = await hash('123', 12)
+      const accountParams = mockAddAccountParams()
+      const password = await hash(accountParams.password, 12)
       await accountColletion.insertOne({
-        name: 'valid_name',
-        email: 'valid_email@email.com',
+        ...accountParams,
         password
       })
 
       await request(app)
         .post('/api/login')
         .send({
-          email: 'valid_email@email.com',
-          password: '123'
+          email: accountParams.email,
+          password: accountParams.password
         })
         .expect(200)
     })
 
     test('Should return 401 on login', async () => {
+      const accountParams = mockAddAccountParams()
       await request(app)
         .post('/api/login')
         .send({
-          email: 'valid_email@email.com',
-          password: '123'
+          email: accountParams.email,
+          password: accountParams.password
         })
         .expect(401)
     })

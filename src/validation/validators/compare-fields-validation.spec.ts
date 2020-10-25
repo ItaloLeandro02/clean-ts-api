@@ -1,3 +1,4 @@
+import faker from 'faker'
 import { CompareFieldsValidation } from '@/validation/validators/compare-fields-validation'
 import { InvalidParamError } from '@/presentation/errors'
 
@@ -7,10 +8,9 @@ const makeSut = (): CompareFieldsValidation => {
 describe('CompareField Validation', () => {
   test('Should return a InvalidParamError if validation fails', () => {
     const sut = makeSut()
-
     const error = sut.validate({
-      field: 'any_value',
-      fieldToCompare: 'wrong_value'
+      field: faker.random.word(),
+      fieldToCompare: faker.random.word()
     })
 
     expect(error).toEqual(new InvalidParamError('fieldToCompare'))
@@ -18,10 +18,10 @@ describe('CompareField Validation', () => {
 
   test('Should not return if validation succeed', () => {
     const sut = makeSut()
-
+    const fieldValue = faker.random.word()
     const error = sut.validate({
-      field: 'any_value',
-      fieldToCompare: 'any_value'
+      field: fieldValue,
+      fieldToCompare: fieldValue
     })
 
     expect(error).toBeFalsy()

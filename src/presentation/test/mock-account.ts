@@ -1,35 +1,41 @@
+import faker from 'faker'
 import { AccountModel } from '@/domain/models/account'
 import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
 import { Authentication, AuthenticationParams } from '@/domain/usecases/account/authentication'
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { mockAccountModel } from '@/domain/test'
 
-export const mockAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add (account: AddAccountParams): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
-    }
-  }
+export class AddAccountSpy implements AddAccount {
+  params: AddAccountParams
+  account = mockAccountModel()
 
-  return new AddAccountStub()
+  async add (params: AddAccountParams): Promise<AccountModel> {
+    this.params = params
+
+    return await Promise.resolve(this.account)
+  }
 }
 
-export const mockAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<string> {
-      return Promise.resolve('any_token')
-    }
-  }
+export class AuthenticationSpy implements Authentication {
+  authentication: AuthenticationParams
+  token = faker.random.word()
 
-  return new AuthenticationStub()
+  async auth (authentication: AuthenticationParams): Promise<string> {
+    this.authentication = authentication
+
+    return Promise.resolve(this.token)
+  }
 }
 
-export const mockLoadAccountByToken = (): LoadAccountByToken => {
-  class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (accessToken: string, role?: string): Promise<AccountModel> {
-      return Promise.resolve(mockAccountModel())
-    }
-  }
+export class LoadAccountByTokenSpy implements LoadAccountByToken {
+  accessToken: string
+  role?: string
+  account = mockAccountModel()
 
-  return new LoadAccountByTokenStub()
+  async load (accessToken: string, role?: string): Promise<AccountModel> {
+    this.accessToken = accessToken
+    this.role = role
+
+    return Promise.resolve(this.account)
+  }
 }
