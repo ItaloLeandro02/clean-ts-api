@@ -1,5 +1,6 @@
 import faker from 'faker'
 import { AccountModel } from '@/domain/models/account'
+import { AuthenticationModel } from '@/domain/models/authentication'
 import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
 import { Authentication, AuthenticationParams } from '@/domain/usecases/account/authentication'
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
@@ -18,12 +19,15 @@ export class AddAccountSpy implements AddAccount {
 
 export class AuthenticationSpy implements Authentication {
   authentication: AuthenticationParams
-  token = faker.random.word()
+  authenticationModel = {
+    accessToken: faker.random.word(),
+    name: faker.name.findName()
+  }
 
-  async auth (authentication: AuthenticationParams): Promise<string> {
+  async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
     this.authentication = authentication
 
-    return Promise.resolve(this.token)
+    return Promise.resolve(this.authenticationModel)
   }
 }
 
