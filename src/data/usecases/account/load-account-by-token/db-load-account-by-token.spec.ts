@@ -3,6 +3,9 @@ import { DbLoadAccountByToken } from './db-load-account-by-token'
 import { DecrypterSpy, LoadAccountByTokenRepositorySpy } from '@/data/test'
 import { throwError } from '@/domain/test'
 
+const token = faker.internet.password()
+const role = faker.random.word()
+
 type SutTypes = {
   sut: DbLoadAccountByToken
   decrypterSpy: DecrypterSpy
@@ -25,8 +28,6 @@ const makeSut = (): SutTypes => {
 describe('DbLoadAccountByToken Usecase', () => {
   test('Should call Decrypter with correct values', async () => {
     const { sut, decrypterSpy, loadAccountByTokenRepositorySpy } = makeSut()
-    const token = faker.internet.password()
-    const role = faker.random.word()
     await sut.load(token, role)
 
     expect(loadAccountByTokenRepositorySpy.token).toBe(decrypterSpy.ciphertext)
@@ -36,8 +37,6 @@ describe('DbLoadAccountByToken Usecase', () => {
   test('Should return null if Decrypter returns null', async () => {
     const { sut, decrypterSpy } = makeSut()
     decrypterSpy.plaintext = null
-    const token = faker.internet.password()
-    const role = faker.random.word()
     const account = await sut.load(token, role)
 
     expect(account).toBeNull()
@@ -46,17 +45,13 @@ describe('DbLoadAccountByToken Usecase', () => {
   test('Should throw if Decrypter throws', async () => {
     const { sut, decrypterSpy } = makeSut()
     jest.spyOn(decrypterSpy, 'decrypt').mockImplementationOnce(throwError)
-    const token = faker.internet.password()
-    const role = faker.random.word()
-    const promise = sut.load(token, role)
+    const account = await sut.load(token, role)
 
-    await expect(promise).rejects.toThrow()
+    expect(account).toBeNull()
   })
 
   test('Should call LoadAccountByTokenRepository with correct values', async () => {
     const { sut, loadAccountByTokenRepositorySpy, decrypterSpy } = makeSut()
-    const token = faker.internet.password()
-    const role = faker.random.word()
     await sut.load(token, role)
 
     expect(loadAccountByTokenRepositorySpy.token).toBe(decrypterSpy.ciphertext)
@@ -66,8 +61,6 @@ describe('DbLoadAccountByToken Usecase', () => {
   test('Should return null if LoadAccountByTokenRepository returns null', async () => {
     const { sut, loadAccountByTokenRepositorySpy } = makeSut()
     loadAccountByTokenRepositorySpy.accountModel = null
-    const token = faker.internet.password()
-    const role = faker.random.word()
     const account = await sut.load(token, role)
 
     expect(account).toBeNull()
@@ -76,8 +69,6 @@ describe('DbLoadAccountByToken Usecase', () => {
   test('Should throw if LoadAccountByTokenRepository throws', async () => {
     const { sut, loadAccountByTokenRepositorySpy } = makeSut()
     jest.spyOn(loadAccountByTokenRepositorySpy, 'loadByToken').mockImplementationOnce(throwError)
-    const token = faker.internet.password()
-    const role = faker.random.word()
     const promise = sut.load(token, role)
 
     await expect(promise).rejects.toThrow()
@@ -85,8 +76,6 @@ describe('DbLoadAccountByToken Usecase', () => {
 
   test('Should return an account on success', async () => {
     const { sut, loadAccountByTokenRepositorySpy, decrypterSpy } = makeSut()
-    const token = faker.internet.password()
-    const role = faker.random.word()
     const account = await sut.load(token, role)
 
     expect(loadAccountByTokenRepositorySpy.accountModel).toEqual(account)
