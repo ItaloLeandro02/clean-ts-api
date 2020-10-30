@@ -10,7 +10,8 @@ import { throwError } from '@/domain/test'
 const mockRequest = (): HttpRequest => ({
   params: {
     surveyId: faker.random.uuid()
-  }
+  },
+  accountId: faker.random.uuid()
 })
 
 type SutTypes = {
@@ -57,12 +58,13 @@ describe('LoadSurveyResult Controller', () => {
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
   })
 
-  test('Should call LoadSurveyResult with correct value', async () => {
+  test('Should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultSpy } = makeSut()
     const HttpRequest = mockRequest()
     await sut.handle(HttpRequest)
 
     expect(loadSurveyResultSpy.surveyId).toBe(HttpRequest.params.surveyId)
+    expect(loadSurveyResultSpy.accountId).toBe(HttpRequest.accountId)
   })
 
   test('Should return 500 if LoadSurveyById throws', async () => {
