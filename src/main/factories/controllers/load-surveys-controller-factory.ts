@@ -1,5 +1,5 @@
 import { makeLogControllerDecorator } from '@/main/factories/decorators'
-import { makeDbLoadSurveys } from '@/main/factories/usecases/survey'
+import { makeDbLoadSurveys } from '@/main/factories/usecases'
 import { Controller } from '@/presentation/protocols'
 import { LoadSurveysController } from '@/presentation/controllers'
 

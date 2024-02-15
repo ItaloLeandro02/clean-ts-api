@@ -1,39 +1,38 @@
 import faker from 'faker'
-import { AccountModel, AuthenticationModel } from '@/domain/models'
-import { AddAccount, AddAccountParams, Authentication, AuthenticationParams, LoadAccountByToken } from '@/domain/usecases/account'
-import { mockAccountModel } from '@/tests/domain/mocks'
+import { AddAccount, Authentication, LoadAccountByToken } from '@/domain/usecases'
 
 export class AddAccountSpy implements AddAccount {
-  params: AddAccountParams
-  account = mockAccountModel()
+  result = true
+  params: AddAccount.Params
 
-  async add (params: AddAccountParams): Promise<AccountModel> {
+  async add (params: AddAccount.Params): Promise<AddAccount.Result> {
     this.params = params
-    return await Promise.resolve(this.account)
+    return await Promise.resolve(this.result)
   }
 }
 
 export class AuthenticationSpy implements Authentication {
-  authentication: AuthenticationParams
   authenticationModel = {
     accessToken: faker.random.word(),
     name: faker.name.findName()
   }
 
-  async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+  authentication: Authentication.Params
+
+  async auth (authentication: Authentication.Params): Promise<Authentication.Result> {
     this.authentication = authentication
     return Promise.resolve(this.authenticationModel)
   }
 }
 
 export class LoadAccountByTokenSpy implements LoadAccountByToken {
+  result = { id: faker.random.uuid() }
   accessToken: string
   role?: string
-  account = mockAccountModel()
 
-  async load (accessToken: string, role?: string): Promise<AccountModel> {
+  async load (accessToken: string, role?: string): Promise<LoadAccountByToken.Result> {
     this.accessToken = accessToken
     this.role = role
-    return Promise.resolve(this.account)
+    return Promise.resolve(this.result)
   }
 }

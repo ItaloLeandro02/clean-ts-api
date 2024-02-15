@@ -1,16 +1,13 @@
 import MockDate from 'mockdate'
 import faker from 'faker'
 import { LoadSurveyResultController } from '@/presentation/controllers'
-import { HttpRequest } from '@/presentation/protocols'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 import { LoadSurveyByIdSpy, LoadSurveyResultSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 
-const mockRequest = (): HttpRequest => ({
-  params: {
-    surveyId: faker.random.uuid()
-  },
+const mockRequest = (): LoadSurveyResultController.Request => ({
+  surveyId: faker.random.uuid(),
   accountId: faker.random.uuid()
 })
 
@@ -42,9 +39,9 @@ describe('LoadSurveyResult Controller', () => {
 
   test('Should call LoadSurveyById if correct value', async () => {
     const { sut, loadSurveyByIdSpy } = makeSut()
-    const HttpRequest = mockRequest()
-    await sut.handle(HttpRequest)
-    expect(loadSurveyByIdSpy.surveyId).toBe(HttpRequest.params.surveyId)
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(loadSurveyByIdSpy.surveyId).toBe(request.surveyId)
   })
 
   test('Should return 403 if LoadSurveyById returns null', async () => {
@@ -56,10 +53,10 @@ describe('LoadSurveyResult Controller', () => {
 
   test('Should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultSpy } = makeSut()
-    const HttpRequest = mockRequest()
-    await sut.handle(HttpRequest)
-    expect(loadSurveyResultSpy.surveyId).toBe(HttpRequest.params.surveyId)
-    expect(loadSurveyResultSpy.accountId).toBe(HttpRequest.accountId)
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(loadSurveyResultSpy.surveyId).toBe(request.surveyId)
+    expect(loadSurveyResultSpy.accountId).toBe(request.accountId)
   })
 
   test('Should return 500 if LoadSurveyById throws', async () => {

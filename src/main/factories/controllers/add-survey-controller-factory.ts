@@ -1,5 +1,5 @@
 import { makeAddSurveyValidation } from '@/main/factories/controllers'
-import { makeDbAddSurvey } from '@/main/factories/usecases/survey'
+import { makeDbAddSurvey } from '@/main/factories/usecases'
 import { makeLogControllerDecorator } from '@/main/factories/decorators'
 import { Controller } from '@/presentation/protocols'
 import { AddSurveyController } from '@/presentation/controllers'

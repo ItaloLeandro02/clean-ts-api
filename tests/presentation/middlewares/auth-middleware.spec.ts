@@ -1,15 +1,12 @@
 import faker from 'faker'
 import { AuthMiddleware } from '@/presentation/middlewares'
-import { HttpRequest } from '@/presentation/protocols'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
 import { LoadAccountByTokenSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 
-const mockRequest = (): HttpRequest => ({
-  headers: {
-    'x-access-token': faker.random.word()
-  }
+const mockRequest = (): AuthMiddleware.Request => ({
+  accessToken: faker.random.word()
 })
 
 type SutTypes = {
@@ -35,7 +32,7 @@ describe('Auth Middleware', () => {
 
   test('Should return 403 if LoadAccountBytoken returns null', async () => {
     const { sut, loadAccountByTokenSpy } = makeSut()
-    loadAccountByTokenSpy.account = null
+    loadAccountByTokenSpy.result = null
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
@@ -45,14 +42,14 @@ describe('Auth Middleware', () => {
     const { sut, loadAccountByTokenSpy } = makeSut(role)
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(loadAccountByTokenSpy.accessToken).toBe(httpRequest.headers['x-access-token'])
+    expect(loadAccountByTokenSpy.accessToken).toBe(httpRequest.accessToken)
     expect(loadAccountByTokenSpy.role).toBe(role)
   })
 
   test('Should return 200 if LoadAccountBytoken returns an account', async () => {
     const { sut, loadAccountByTokenSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok({ accountId: loadAccountByTokenSpy.account.id }))
+    expect(httpResponse).toEqual(ok({ accountId: loadAccountByTokenSpy.result.id }))
   })
 
   test('Should return 500 if LoadAccountBytoken throws', async () => {

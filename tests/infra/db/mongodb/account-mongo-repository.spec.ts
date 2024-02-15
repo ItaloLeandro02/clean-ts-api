@@ -23,15 +23,11 @@ describe('Account Mongo Repository', () => {
   }
 
   describe('add()', () => {
-    test('Should return an account on add success', async () => {
+    test('Should return true on add success', async () => {
       const sut = makeSut()
       const accountParams = mockAddAccountParams()
-      const account = await sut.add(accountParams)
-      expect(account).toBeTruthy()
-      expect(account.id).toBeTruthy()
-      expect(account.name).toBe(accountParams.name)
-      expect(account.email).toBe(accountParams.email)
-      expect(account.password).toBe(accountParams.password)
+      const isValid = await sut.add(accountParams)
+      expect(isValid).toBe(true)
     })
   })
 
@@ -44,7 +40,6 @@ describe('Account Mongo Repository', () => {
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe(accountParams.name)
-      expect(account.email).toBe(accountParams.email)
       expect(account.password).toBe(accountParams.password)
     })
 
@@ -82,9 +77,6 @@ describe('Account Mongo Repository', () => {
       const account = await sut.loadByToken('any_token')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
-      expect(account.name).toBe(accountParams.name)
-      expect(account.email).toBe(accountParams.email)
-      expect(account.password).toBe(accountParams.password)
     })
 
     test('Should return an account on loadByToken with admin role', async () => {
@@ -100,9 +92,6 @@ describe('Account Mongo Repository', () => {
       const account = await sut.loadByToken('any_token', 'admin')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
-      expect(account.name).toBe(accountParams.name)
-      expect(account.email).toBe(accountParams.email)
-      expect(account.password).toBe(accountParams.password)
     })
 
     test('Should return null on loadByToken with invalid role', async () => {
@@ -131,9 +120,6 @@ describe('Account Mongo Repository', () => {
       const account = await sut.loadByToken('any_token')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
-      expect(account.name).toBe(accountParams.name)
-      expect(account.email).toBe(accountParams.email)
-      expect(account.password).toBe(accountParams.password)
     })
 
     test('Should return null if loadByToken fails', async () => {
