@@ -1,3 +1,4 @@
+import faker from 'faker'
 import { Collection } from 'mongodb'
 import { AccountMongoRepository, MongoHelper } from '@/infra/db/mongodb'
 import { mockAddAccountParams } from '@/tests/domain/mocks'
@@ -45,8 +46,24 @@ describe('Account Mongo Repository', () => {
 
     test('Should return null if loadByEmail fails', async () => {
       const sut = makeSut()
-      const account = await sut.loadByEmail('any_email@email.com')
+      const account = await sut.loadByEmail(faker.internet.email())
       expect(account).toBeFalsy()
+    })
+  })
+
+  describe('checkByEmail()', () => {
+    test('Should return true if email is valid', async () => {
+      const sut = makeSut()
+      const accountParams = mockAddAccountParams()
+      await accountColletion.insertOne(accountParams)
+      const exists = await sut.checkByEmail(accountParams.email)
+      expect(exists).toBe(true)
+    })
+
+    test('Should return false if email is not valid', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkByEmail(faker.internet.email())
+      expect(exists).toBe(false)
     })
   })
 
