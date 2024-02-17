@@ -53,8 +53,10 @@
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
   "dependencies": {
+    "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
+    "graphql": "^16.8.1",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
     "mongo-round": "^1.0.0",
