@@ -10,6 +10,7 @@
     "@typescript-eslint/no-namespace": "off",
     "import/export": "off",
     "no-redeclare": "off",
-    "@typescript-eslint/require-await": "off"
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-misused-promises": "off"
   }
 }
