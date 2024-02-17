@@ -1,4 +1,4 @@
-name: Clean TS API
+name: Clean TS CI
 on:
   push:
     branches:
