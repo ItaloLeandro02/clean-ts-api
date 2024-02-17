@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ItaloLeandro02/clean-ts-api.svg?branch=master)](https://travis-ci.org/ItaloLeandro02/clean-ts-api)
+[![Clean TS CI](https://github.com/ItaloLeandro02/clean-ts-api/actions/workflows/ci.yml/badge.svg)](https://github.com/ItaloLeandro02/clean-ts-api/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/ItaloLeandro02/clean-ts-api/badge.svg)](https://coveralls.io/github/ItaloLeandro02/clean-ts-api)
 
 # **Clean Node API**
