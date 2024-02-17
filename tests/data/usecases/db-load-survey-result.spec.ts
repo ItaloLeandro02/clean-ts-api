@@ -49,19 +49,19 @@ describe('DbLoadSurveyResult UseCase', () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
     const surveyResult = await sut.load(surveyId, accountId)
     expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyId)
-    expect(loadSurveyResultRepositorySpy.surveyResultModel).toEqual(surveyResult)
+    expect(loadSurveyResultRepositorySpy.result).toEqual(surveyResult)
   })
 
   test('Should call LoadSurveyByIdRepository if LoadSurveyResultRepository returns null', async () => {
     const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } = makeSut()
-    loadSurveyResultRepositorySpy.surveyResultModel = null
+    loadSurveyResultRepositorySpy.result = null
     await sut.load(surveyId, accountId)
     expect(loadSurveyByIdRepositorySpy.id).toBe(surveyId)
   })
 
   test('Should return SurveyResultModel with all answers with count 0 if LoadSurveyResultRepository returns null', async () => {
     const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } = makeSut()
-    loadSurveyResultRepositorySpy.surveyResultModel = null
+    loadSurveyResultRepositorySpy.result = null
     const surveyResult = await sut.load(surveyId, accountId)
     const { result } = loadSurveyByIdRepositorySpy
     expect(surveyResult).toEqual({

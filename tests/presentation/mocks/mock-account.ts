@@ -12,7 +12,7 @@ export class AddAccountSpy implements AddAccount {
 }
 
 export class AuthenticationSpy implements Authentication {
-  authenticationModel = {
+  result = {
     accessToken: faker.random.word(),
     name: faker.name.findName()
   }
@@ -21,7 +21,7 @@ export class AuthenticationSpy implements Authentication {
 
   async auth (authentication: Authentication.Params): Promise<Authentication.Result> {
     this.authentication = authentication
-    return Promise.resolve(this.authenticationModel)
+    return Promise.resolve(this.result)
   }
 }
 

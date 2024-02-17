@@ -13,7 +13,7 @@ export class SaveSurveyResultRepositorySpy implements SaveSurveyResultRepository
 }
 
 export class LoadSurveyResultRepositorySpy implements LoadSurveyResultRepository {
-  surveyResultModel = mockSurveyResultModel()
+  result = mockSurveyResultModel()
   surveyId: string
   accountId: string
 
@@ -21,6 +21,6 @@ export class LoadSurveyResultRepositorySpy implements LoadSurveyResultRepository
     this.surveyId = surveyId
     this.accountId = accountId
 
-    return Promise.resolve(this.surveyResultModel)
+    return Promise.resolve(this.result)
   }
 }

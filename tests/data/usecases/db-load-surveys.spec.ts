@@ -37,7 +37,7 @@ describe('DbLoadSurveys', () => {
   test('Should return a list of Surveys on success', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
     const surveys = await sut.load(faker.random.uuid())
-    expect(loadSurveysRepositorySpy.surveyModels).toEqual(surveys)
+    expect(loadSurveysRepositorySpy.result).toEqual(surveys)
   })
 
   test('Should throw if LoadSurveyRepository throws', async () => {

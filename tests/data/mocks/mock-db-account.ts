@@ -2,12 +2,12 @@ import faker from 'faker'
 import { AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository, LoadAccountByTokenRepository, UpdateAccessTokenRepository } from '@/data/protocols/db/account'
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
-  isValid = true
+  result = true
   addAccountData: AddAccountRepository.Params
 
   async add (data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     this.addAccountData = data
-    return Promise.resolve(this.isValid)
+    return Promise.resolve(this.result)
   }
 }
 
