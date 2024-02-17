@@ -29,7 +29,7 @@ const makeAccessToken = async (role?: string): Promise<string> => {
   return accessToken
 }
 
-describe('Survey GraphQL', () => {
+describe('SurveyResult GraphQL', () => {
   beforeAll(async () => {
     app = await setupApp()
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -46,24 +46,11 @@ describe('Survey GraphQL', () => {
     await accountColletion.deleteMany({})
   })
 
-  describe('Survey Query', () => {
-    const query = `query {
-        surveys {
-            id
-            question
-            answers {
-                image
-                answer
-            }
-            date
-            didAnswer
-        }
-    }`
-
-    test('Should return Surveys on success', async () => {
+  describe('SurveyResult Query', () => {
+    test('Should return SurveyResult on success', async () => {
       const accessToken = await makeAccessToken()
       const now = new Date()
-      await surveyColletion.insertOne({
+      const surveyRes = await surveyColletion.insertOne({
         question: 'Question 1',
         answers: [{
           image: 'http://image-name.com',
@@ -73,41 +60,36 @@ describe('Survey GraphQL', () => {
         }],
         date: now
       })
+      const query = `query {
+            surveyResult (surveyId: "${surveyRes.insertedId.toHexString()}") {
+                question
+                answers {
+                    answer
+                    count
+                    percent
+                    isCurrentAccountAnswer
+                }
+                date
+            }
+        }`
       const res = await request(app)
         .post('/graphql')
         .set('x-access-token', accessToken)
         .send({ query })
       expect(res.status).toBe(200)
-      expect(res.body.data.surveys.length).toBe(1)
-      expect(res.body.data.surveys[0].id).toBeTruthy()
-      expect(res.body.data.surveys[0].question).toBe('Question 1')
-      expect(res.body.data.surveys[0].date).toBe(now.toISOString())
-      expect(res.body.data.surveys[0].didAnswer).toBe(false)
-      expect(res.body.data.surveys[0].answers).toEqual([{
-        image: 'http://image-name.com',
-        answer: 'Answer 1'
+      expect(res.body.data.surveyResult.question).toBe('Question 1')
+      expect(res.body.data.surveyResult.date).toBe(now.toISOString())
+      expect(res.body.data.surveyResult.answers).toEqual([{
+        answer: 'Answer 1',
+        count: 0,
+        percent: 0,
+        isCurrentAccountAnswer: false
       }, {
-        image: null,
-        answer: 'Answer 2'
+        answer: 'Answer 2',
+        count: 0,
+        percent: 0,
+        isCurrentAccountAnswer: false
       }])
-    })
-
-    test('Should return AccessDeniedError if no token is provided', async () => {
-      await surveyColletion.insertOne({
-        question: 'Question 1',
-        answers: [{
-          image: 'http://image-name.com',
-          answer: 'Answer 1'
-        }, {
-          answer: 'Answer 2'
-        }],
-        date: new Date()
-      })
-      const res = await request(app)
-        .post('/graphql')
-        .send({ query })
-      expect(res.status).toBe(403)
-      expect(res.body.errors[0].message).toBe('Access denied')
     })
   })
 })
