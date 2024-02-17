@@ -62,6 +62,7 @@ describe('Login GraphQL', () => {
             name
         }
     }`
+
     test('Should return an Account on valid data', async () => {
       const res = await request(app)
         .post('/graphql')
