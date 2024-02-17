@@ -91,5 +91,24 @@ describe('Survey GraphQL', () => {
         answer: 'Answer 2'
       }])
     })
+
+    test('Should return AccessDeniedError if no token is provided', async () => {
+      const now = new Date()
+      await surveyColletion.insertOne({
+        question: 'Question 1',
+        answers: [{
+          image: 'http://image-name.com',
+          answer: 'Answer 1'
+        }, {
+          answer: 'Answer 2'
+        }],
+        date: now
+      })
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(res.status).toBe(403)
+      expect(res.body.errors[0].message).toBe('Access denied')
+    })
   })
 })
