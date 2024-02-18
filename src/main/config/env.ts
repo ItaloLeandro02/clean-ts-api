@@ -1,5 +1,7 @@
+import 'dotenv/config'
+
 export default {
-  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost:27017/clean-ts-api',
-  port: process.env.PORT || 5050,
-  jwtSecret: process.env.JWT_SECRET || 'HDrT$%125-FG4'
+  mongoUrl: process.env.MONGO_URL,
+  port: process.env.PORT,
+  jwtSecret: process.env.JWT_SECRET
 }
