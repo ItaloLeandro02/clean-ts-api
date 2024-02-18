@@ -11,6 +11,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo PORT=5050 >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          cat .env
       - run: npm install
       - run: npm run test:ci
       - uses: coverallsapp/github-action@v2
