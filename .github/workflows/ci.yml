@@ -12,7 +12,8 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: make test:coveralls
+      - run: npm run test:coveralls
       - uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.TOKEN }}
