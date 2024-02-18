@@ -11,6 +11,9 @@
     "import/export": "off",
     "no-redeclare": "off",
     "@typescript-eslint/require-await": "off",
-    "@typescript-eslint/no-misused-promises": "off"
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/consistent-type-imports": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/no-unsafe-argument": "off"
   }
 }

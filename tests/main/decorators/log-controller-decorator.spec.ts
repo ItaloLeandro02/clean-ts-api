@@ -1,4 +1,4 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { LogControllerDecorator } from '@/main/decorators'
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { serverError, ok } from '@/presentation/helpers'
@@ -7,11 +7,11 @@ import { mockLogErrorRepository } from '@/tests/data/mocks'
 
 class ControllerSPy implements Controller {
   request: any
-  httpResponse = ok(faker.random.uuid())
+  httpResponse = ok(faker.string.uuid())
 
   async handle (request: any): Promise<HttpResponse> {
     this.request = request
-    return Promise.resolve(this.httpResponse)
+    return await Promise.resolve(this.httpResponse)
   }
 }
 

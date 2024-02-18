@@ -1,7 +1,7 @@
 import { AddSurvey } from '@/domain/usecases'
 
 export interface AddSurveyRepository {
-  add (data: AddSurveyRepository.Params): Promise<void>
+  add: (data: AddSurveyRepository.Params) => Promise<void>
 }
 
 export namespace AddSurveyRepository {

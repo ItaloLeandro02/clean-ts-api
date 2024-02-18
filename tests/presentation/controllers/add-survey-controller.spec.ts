@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { AddSurveyController } from '@/presentation/controllers'
 import { badRequest, serverError, noContent } from '@/presentation/helpers'
 import { ValidationSpy } from '@/tests/presentation/mocks'
@@ -7,15 +7,15 @@ import { throwError } from '@/tests/domain/mocks'
 import { AddSurveyRepositorySpy } from '@/tests/data/mocks'
 
 const mockRequest = (): AddSurveyController.Request => ({
-  question: faker.random.words(),
+  question: faker.lorem.words(),
   answers: [{
-    image: faker.image.imageUrl(),
-    answer: faker.random.word()
+    image: faker.image.url(),
+    answer: faker.lorem.word()
   }, {
-    image: faker.image.imageUrl(),
-    answer: faker.random.word()
+    image: faker.image.url(),
+    answer: faker.lorem.word()
   }, {
-    answer: faker.random.word()
+    answer: faker.lorem.word()
   }]
 })
 

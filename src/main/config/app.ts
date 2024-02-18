@@ -10,7 +10,7 @@ export const setupApp = async (): Promise<Express> => {
   setupStaticFiles(app)
   setupSwagger(app)
   setupMiddlewares(app)
-  setupRoutes(app)
+  await setupRoutes(app)
   const server = setupApolloServer()
   await server.start()
   server.applyMiddleware({ app })

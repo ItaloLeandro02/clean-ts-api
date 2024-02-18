@@ -3,10 +3,10 @@ import { makeLoginController, makeSignUpController } from '@/main/factories/cont
 
 export default {
   Query: {
-    login: async (parent: any, args: any) => adaptResolver(makeLoginController(), args)
+    login: async (parent: any, args: any) => await adaptResolver(makeLoginController(), args)
   },
 
   Mutation: {
-    signUp: async (parent: any, args: any) => adaptResolver(makeSignUpController(), args)
+    signUp: async (parent: any, args: any) => await adaptResolver(makeSignUpController(), args)
   }
 }

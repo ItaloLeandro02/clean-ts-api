@@ -7,7 +7,7 @@ import env from '@/main/config/env'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks'
 
-let surveyColletion: Collection
+let surveyCollection: Collection
 let accountColletion: Collection
 let app: Express
 
@@ -17,7 +17,7 @@ const makeAccessToken = async (role?: string): Promise<string> => {
     ...accountParams,
     role
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId
   const accessToken = sign({ id }, env.jwtSecret)
   await accountColletion.updateOne({
     _id: id
@@ -40,9 +40,9 @@ describe('Survey Routes', () => {
   })
 
   beforeEach(async () => {
-    surveyColletion = await MongoHelper.getCollection('surveys')
-    accountColletion = await MongoHelper.getCollection('accounts')
-    await surveyColletion.deleteMany({})
+    surveyCollection = MongoHelper.getCollection('surveys')
+    accountColletion = MongoHelper.getCollection('accounts')
+    await surveyCollection.deleteMany({})
     await accountColletion.deleteMany({})
   })
 

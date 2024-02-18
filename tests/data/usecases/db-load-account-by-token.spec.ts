@@ -1,10 +1,10 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { DbLoadAccountByToken } from '@/data/usecases'
 import { DecrypterSpy, LoadAccountByTokenRepositorySpy } from '@/tests/data/mocks'
 import { throwError } from '@/tests/domain/mocks'
 
 const token = faker.internet.password()
-const role = faker.random.word()
+const role = faker.lorem.word()
 
 type SutTypes = {
   sut: DbLoadAccountByToken

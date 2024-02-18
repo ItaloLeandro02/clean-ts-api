@@ -1,5 +1,5 @@
 export interface LoadAnswersBySurveyRepository {
-  loadAnswers (id: string): Promise<LoadAnswersBySurveyRepository.Result>
+  loadAnswers: (id: string) => Promise<LoadAnswersBySurveyRepository.Result>
 }
 
 export namespace LoadAnswersBySurveyRepository {

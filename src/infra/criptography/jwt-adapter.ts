@@ -5,10 +5,10 @@ export class JwtAdapter implements Encrypter, Decrypter {
   constructor (private readonly secret: string) {}
 
   async encrypt (value: string): Promise<string> {
-    return await jwt.sign({ id: value }, this.secret)
+    return await Promise.resolve(jwt.sign({ id: value }, this.secret))
   }
 
   async decrypt (token: string): Promise<string> {
-    return await jwt.verify(token, this.secret) as string
+    return await Promise.resolve(jwt.verify(token, this.secret)) as string
   }
 }

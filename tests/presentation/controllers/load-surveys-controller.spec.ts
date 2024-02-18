@@ -1,11 +1,11 @@
 import MockDate from 'mockdate'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { LoadSurveysController } from '@/presentation/controllers'
 import { ok, serverError, noContent } from '@/presentation/helpers'
 import { LoadSurveysSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 
-const mockRequest = (): LoadSurveysController.Request => ({ accountId: faker.random.uuid() })
+const mockRequest = (): LoadSurveysController.Request => ({ accountId: faker.string.uuid() })
 
 type SutTypes = {
   sut: LoadSurveysController

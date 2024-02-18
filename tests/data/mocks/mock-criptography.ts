@@ -1,13 +1,13 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { Decrypter, Encrypter, HashComparer, Hasher } from '@/data/protocols/criptography'
 
 export class HasherSpy implements Hasher {
-  digest = faker.random.uuid()
+  digest = faker.string.uuid()
   plainText: string
 
   async hash (plainText: string): Promise<string> {
     this.plainText = plainText
-    return Promise.resolve(this.digest)
+    return await Promise.resolve(this.digest)
   }
 }
 
@@ -17,17 +17,17 @@ export class DecrypterSpy implements Decrypter {
 
   async decrypt (ciphertext: string): Promise<string> {
     this.ciphertext = ciphertext
-    return Promise.resolve(this.plaintext)
+    return await Promise.resolve(this.plaintext)
   }
 }
 
 export class EncrypterSpy implements Encrypter {
-  ciphertext = faker.random.hexaDecimal()
+  ciphertext = faker.string.hexadecimal()
   plaintext: string
 
   async encrypt (plaintext: string): Promise<string> {
     this.plaintext = plaintext
-    return Promise.resolve(this.ciphertext)
+    return await Promise.resolve(this.ciphertext)
   }
 }
 
@@ -39,6 +39,6 @@ export class HashComparerSpy implements HashComparer {
   async compare (plainText: string, digest: string): Promise<boolean> {
     this.plainText = plainText
     this.digest = digest
-    return Promise.resolve(this.isValid)
+    return await Promise.resolve(this.isValid)
   }
 }

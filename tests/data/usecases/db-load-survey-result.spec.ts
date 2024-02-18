@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { DbLoadSurveyResult } from '@/data/usecases'
 import { LoadSurveyByIdRepositorySpy, LoadSurveyResultRepositorySpy } from '@/tests/data/mocks'
 import { throwError } from '@/tests/domain/mocks'
@@ -34,8 +34,8 @@ describe('DbLoadSurveyResult UseCase', () => {
   })
 
   beforeEach(() => {
-    surveyId = faker.random.uuid()
-    accountId = faker.random.uuid()
+    surveyId = faker.string.uuid()
+    accountId = faker.string.uuid()
   })
 
   test('Should call LoadSurveyResultRepository with correct values', async () => {

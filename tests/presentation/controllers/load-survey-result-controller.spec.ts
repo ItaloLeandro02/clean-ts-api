@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { LoadSurveyResultController } from '@/presentation/controllers'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
@@ -7,8 +7,8 @@ import { CheckSurveyByIdSpy, LoadSurveyResultSpy } from '@/tests/presentation/mo
 import { throwError } from '@/tests/domain/mocks'
 
 const mockRequest = (): LoadSurveyResultController.Request => ({
-  surveyId: faker.random.uuid(),
-  accountId: faker.random.uuid()
+  surveyId: faker.string.uuid(),
+  accountId: faker.string.uuid()
 })
 
 type SutTypes = {

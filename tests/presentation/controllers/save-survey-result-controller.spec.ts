@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { SaveSurveyResultController } from '@/presentation/controllers'
 import { forbidden, serverError, ok } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
@@ -7,9 +7,9 @@ import { LoadAnswersBySurveySpy, SaveSurveyResultSpy } from '@/tests/presentatio
 import { throwError } from '@/tests/domain/mocks'
 
 const mockRequest = (answer: string = null): SaveSurveyResultController.Request => ({
-  surveyId: faker.random.uuid(),
+  surveyId: faker.string.uuid(),
   answer,
-  accountId: faker.random.uuid()
+  accountId: faker.string.uuid()
 })
 
 interface SutTypes {

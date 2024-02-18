@@ -7,7 +7,7 @@ import env from '@/main/config/env'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { mockAddSurveyParams } from '@/tests/domain/mocks'
 
-let surveyColletion: Collection
+let surveyCollection: Collection
 let accountColletion: Collection
 let app: Express
 
@@ -17,7 +17,7 @@ const makeAccessToken = async (): Promise<string> => {
     email: 'valid_email@email.com',
     password: 'any_password'
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId
   const accessToken = sign({ id }, env.jwtSecret)
 
   await accountColletion.updateOne({
@@ -42,9 +42,9 @@ describe('Survey Routes', () => {
   })
 
   beforeEach(async () => {
-    surveyColletion = await MongoHelper.getCollection('surveys')
-    accountColletion = await MongoHelper.getCollection('accounts')
-    await surveyColletion.deleteMany({})
+    surveyCollection = MongoHelper.getCollection('surveys')
+    accountColletion = MongoHelper.getCollection('accounts')
+    await surveyCollection.deleteMany({})
     await accountColletion.deleteMany({})
   })
 
@@ -61,9 +61,9 @@ describe('Survey Routes', () => {
     test('Should return 200 on save survey result with accessToken', async () => {
       const accessToken = await makeAccessToken()
       const surveyParams = mockAddSurveyParams()
-      const res = await surveyColletion.insertOne(surveyParams)
+      const res = await surveyCollection.insertOne(surveyParams)
       await request(app)
-        .put(`/api/surveys/${res.ops[0]._id}/results`)
+        .put(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .send({
           answer: surveyParams.answers[0].answer
@@ -81,9 +81,9 @@ describe('Survey Routes', () => {
 
     test('Should return 200 on load survey result with accessToken', async () => {
       const accessToken = await makeAccessToken()
-      const res = await surveyColletion.insertOne(mockAddSurveyParams())
+      const res = await surveyCollection.insertOne(mockAddSurveyParams())
       await request(app)
-        .get(`/api/surveys/${res.ops[0]._id}/results`)
+        .get(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .expect(200)
     })

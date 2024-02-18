@@ -1,4 +1,4 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { DbCheckSurveyById } from '@/data/usecases'
 import { CheckSurveyByIdRepositorySpy } from '@/tests/data/mocks'
 import { throwError } from '@/tests/domain/mocks'
@@ -21,7 +21,7 @@ let surveyId: string
 
 describe('DbCheckSurveyById', () => {
   beforeEach(() => {
-    surveyId = faker.random.uuid()
+    surveyId = faker.string.uuid()
   })
 
   test('Should call CheckSurveyByIdRepository', async () => {

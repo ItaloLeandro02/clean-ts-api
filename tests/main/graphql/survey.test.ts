@@ -7,7 +7,7 @@ import env from '@/main/config/env'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { mockAddAccountParams } from '@/tests/domain/mocks'
 
-let surveyColletion: Collection
+let surveyCollection: Collection
 let accountColletion: Collection
 let app: Express
 
@@ -17,7 +17,7 @@ const makeAccessToken = async (role?: string): Promise<string> => {
     ...accountParams,
     role
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId
   const accessToken = sign({ id }, env.jwtSecret)
   await accountColletion.updateOne({
     _id: id
@@ -40,9 +40,9 @@ describe('Survey GraphQL', () => {
   })
 
   beforeEach(async () => {
-    surveyColletion = await MongoHelper.getCollection('surveys')
-    accountColletion = await MongoHelper.getCollection('accounts')
-    await surveyColletion.deleteMany({})
+    surveyCollection = MongoHelper.getCollection('surveys')
+    accountColletion = MongoHelper.getCollection('accounts')
+    await surveyCollection.deleteMany({})
     await accountColletion.deleteMany({})
   })
 
@@ -63,7 +63,7 @@ describe('Survey GraphQL', () => {
     test('Should return Surveys on success', async () => {
       const accessToken = await makeAccessToken()
       const now = new Date()
-      await surveyColletion.insertOne({
+      await surveyCollection.insertOne({
         question: 'Question 1',
         answers: [{
           image: 'http://image-name.com',
@@ -93,7 +93,7 @@ describe('Survey GraphQL', () => {
     })
 
     test('Should return AccessDeniedError if no token is provided', async () => {
-      await surveyColletion.insertOne({
+      await surveyCollection.insertOne({
         question: 'Question 1',
         answers: [{
           image: 'http://image-name.com',
